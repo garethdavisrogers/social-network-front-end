@@ -1,24 +1,29 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import './App.css'
 
 function Register() {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+
+  function handleRegister(e: React.FormEvent<HTMLFormElement>){
+    e.preventDefault()
+    console.log(`Submitting ${email} and ${password}`);
+  }
 
   return (
     <>
-      <form>
+      <form onSubmit={handleRegister}>
         <fieldset>
             <legend>Register</legend>
             <div className="form-group">
-                <label>User Name</label>
-                <input type="text" placeholder='username'/>
+                <label>Email</label>
+                <input type="text" placeholder='email' value={email} onChange={(e)=>{setEmail(e.target.value)}}/>
             </div>
             <div className="form-group">
                 <label>Password</label>
-                <input type="password" placeholder='password'/>
+                <input type="password" placeholder='password' value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
             </div>
             <button type="submit">Log In</button>
         </fieldset>
