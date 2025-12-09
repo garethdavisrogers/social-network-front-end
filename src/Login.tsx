@@ -12,7 +12,7 @@ function Login() {
     e.preventDefault()
     try{
       const endpoint = `${api_url}/${login_url}`;
-      const payload = {email, password};
+      const payload = {Email: email, Password: password};
 
       const response = await fetch(endpoint, {
         method: 'POST',
