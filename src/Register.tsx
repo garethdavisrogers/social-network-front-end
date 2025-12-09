@@ -25,7 +25,7 @@ function Register() {
                 <label>Password</label>
                 <input type="password" placeholder='password' value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
             </div>
-            <button type="submit">Log In</button>
+            <button type="submit">Register</button>
         </fieldset>
             
         <div>

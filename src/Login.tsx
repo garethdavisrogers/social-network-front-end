@@ -1,15 +1,40 @@
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom';
 import './App.css'
 
 function Login() {
+  const api_url = __API_URL__;
+  const login_url = __LOGIN_URL__;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  function handleLogin(e: React.FormEvent<HTMLFormElement>){
+  async function handleLogin(e: FormEvent<HTMLFormElement>){
     e.preventDefault()
-    console.log(`Submitting ${email} and ${password}`);
-  }
+    try{
+      const endpoint = `${api_url}/${login_url}`;
+      const payload = {email, password};
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      });
+
+      if(!response.ok){
+        throw new Error(`Login failed with status ${response.status}`);
+      }
+      const data = await response.json();
+      console.log('Login success:', data);
+    }
+    catch(error: unknown){
+      if(error instanceof Error){
+        console.error(error.message);
+      }
+      else{
+        console.log('Unknown error during login', error);
+      }
+    }
+  };
 
   return (
     <>
