@@ -1,4 +1,6 @@
 import { URLS } from "./routes";
+import { requestJson } from "./http/requestJson";
+import type { LoginRequest, LoginResponse } from "../types/api/Login";
 
 export async function login(req: LoginRequest) {
   return requestJson<LoginResponse>(URLS.auth.login, {
