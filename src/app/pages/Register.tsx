@@ -1,33 +1,27 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import {register} from '../../api/auth';
 import ErrorList from '../../components/ErrorList';
 import '../App.css'
 
 function Register() {
-  const api_url = __API_URL__;
-  const register_url = __REGISTER_URL__;
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errors, setErrors] = useState<string[]>([]);
   const navigate = useNavigate();
 
   async function handleRegister(e: React.FormEvent<HTMLFormElement>){
-        e.preventDefault()
+
+    e.preventDefault();
+
     try{
-      const endpoint = `${api_url}/${register_url}`;
       const payload = {email: email, password: password};
 
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
-      });
-
-      const body = await response.json();
+      const response = await register(payload);
 
       if(!response.ok){
-        // setErrors(Array.isArray(body) ? body.errors : Object.values(body.errors ?? {}).flat());
-        console.log(response);
+        setErrors(response.errors)
         throw new Error(`Register failed with status ${response.status}`);
       }
       navigate("/home");

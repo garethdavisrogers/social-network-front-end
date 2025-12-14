@@ -1,30 +1,28 @@
 import { useState, type FormEvent } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../../api/auth';
+import ErrorList from '../../components/ErrorList';
 import '../App.css'
 
 function Login() {
-  const api_url = __API_URL__;
-  const login_url = __LOGIN_URL__;
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [errors, setErrors] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   async function handleLogin(e: FormEvent<HTMLFormElement>){
     e.preventDefault()
     try{
-      const endpoint = `${api_url}/${login_url}`;
+
       const payload = {Email: email, Password: password};
 
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
-      });
+      const response = await login(payload);
 
       if(!response.ok){
+        setErrors(response.errors);
         throw new Error(`Login failed with status ${response.status}`);
       }
-      const data = await response.json();
-      console.log('Login success:', data);
+      navigate("/home");
     }
     catch(error: unknown){
       if(error instanceof Error){
@@ -51,7 +49,7 @@ function Login() {
             </div>
             <button type="submit">Log In</button>
         </fieldset>
-            
+        {errors.length > 0 && <ErrorList errors={errors}/>}
         <div>
             <Link to="/register">Not a member?  Register here</Link>
         </div>
