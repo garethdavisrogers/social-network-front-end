@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom';
-import './App.css'
+import '../App.css'
 
 function Login() {
   const api_url = __API_URL__;

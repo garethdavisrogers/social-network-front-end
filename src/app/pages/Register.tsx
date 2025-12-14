@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
-import ErrorList from './ErrorList';
-import './App.css'
+import ErrorList from '../../components/ErrorList';
+import '../App.css'
 
 function Register() {
   const api_url = __API_URL__;
